@@ -10,16 +10,20 @@ Feed-forward neural network is selected vs RNN, since the length of input sample
 
 1. DNN
 2. CNN
+INFO:tensorflow:Saving dict for global step 31001: accuracy = 0.948276, global_step = 31001, loss = 0.146794
+
 
 ## Data preprocessing and dataset split
 1. Data filter/clean-up
-2. One hot ..
+2. One hot encoder
 3. Training/test split
 
 ## Hyperparameter selection
-1. Learning rate selection
-
+1. Learning rate
 2. Number of hidden layers
-
-3. Activation function selection
-
+3. Node in each layer
+4. Regularzation
+5. Activation function 
+6. Optimizor 
+7. Mini-batch size
+8. Loss function
