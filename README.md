@@ -54,27 +54,32 @@ After expanding the data to one-hot vector, each sample is a 60x8 array, similar
 ```
 Conv layer (32 feature depth) => pooling => 
 	Conv layer (64 feature depth) => pooling => 
-		fully connection (64 nodes) => dropout => 
-			fully connection (16 nodes) => fully connection (3: output)
+		fully connected layer (64 nodes) => dropout => 
+			fully connected layer (16 nodes) => fully connected layer (3: output)
 ```
 
 * **RNN**: 
 
+Basic RNN architecture is used here, no LSTM or GRU utilized. It is connected to a fully connected layer to generate the target labels. More details of the layers are listed here: 
+```
+RNN layer (80 RNN cells) => dropout => fully connected layer (3: output) 
+```
+
 ## Considerations in building the models
 
-* **Overfit and Regularzation**
-The data set is relatively small: around 3k samples. Overfit was found in the early experiment tests. Regularization was then added to resolve the overfit situation. 
-	* Dropout layer: Dropout layer is added in both CNN and RNN model after the dense layer (affine layer term used in neon). Dropout rate 0.5. With Dropout layer added, the test accuracy is improved from ~92% to ~96%
-	* Weight regularization: L2 regularization is applied to the weights in Convolution layer and dense layer. Slight improvement on overfitting on top of dropout layer. 
+* **Overfitting and Regularzation :** The data set is relatively small: around 3k samples. Overfit was found in the early experiment tests. Several adjustments were done to avoid overfitting including simplify model, adding dropout layer and apply weigth regularization:
+    * Simplify the model: 150 RNN cells were initially used in RNN layer in RNN model. The goal was trying to store long enough (>x2 60 pairs) int the RNN cells. It turns out overfitting quickly, test accuracy stucks at 89% while training accuracy goes >99%. Reducing the RNN cells to 64 dramatically helped the overfitting. 
+    * Add dropout layer: Dropout layer is added in both CNN and RNN model after the dense layer (affine layer term used in neon). Dropout rate 0.5. Without Dropout layer, the test accuracy stuck around ~92% while training accuracy keeps improving. With dropout layer, test accuracy continus climbing up with traing accuracy till ~96%.
+    * Apply weight regularization: L2 regularization is applied to the weights in Convolution layer and dense layer. Slight improvement on overfitting on top of dropout layer. 
+    * Result shows the above regularization successfully mitigated overfitting. 
 
 > Implementation notes: So far I haven't found a direct way to apply weight regularization to Tensorflow RNN layer. Looks like weight regularization has to go through direct tensor variables. Due to the time limitation, it is not yet done. 
 
-Result shows the above regularization successfully mitigated overfitting. But RNN result still shows overfitting. Needs to continue explore the solutions.
+* **Loss function:** Cross entropy lost function is used here for the classification. Regularization loss is added during training process. 
 
-* Loss function: 
+* **Weight initialization:** Xaiver weight initialization is applied on the conv and dense layer, to adaptively adjust the weight to the appropriate range for the layer. Slight improvement is observed. 
 
-* Weight initialization
-
+> Implementation notes: I didn't find Gaussian weight intializar from Tensorflow. 
 
 
 ## Hyperparameter selection
