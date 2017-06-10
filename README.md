@@ -7,7 +7,7 @@ Considerations when building up the model and the steps of codes are introduced 
 ## Data preprocessing and dataset split
 1. One hot encoder
 Since the DNA sequence specifies 8 different input classes, and each category is equally important, no order difference, the input classes are transformed with one-hot encoder:
-'''
+```
 	"A":[0,0,0,0,0,0,0,1],
 	"G":[0,0,0,0,0,0,1,0],
 	"C":[0,0,0,0,0,1,0,0],
@@ -16,16 +16,16 @@ Since the DNA sequence specifies 8 different input classes, and each category is
 	"N":[0,0,1,0,0,0,0,0],
 	"S":[0,1,0,0,0,0,0,0],
 	"R":[1,0,0,0,0,0,0,0]}
-'''
+```
 It is noticed that the 4 classes are the combination of the other four: 
-'''
+```
 D: A or G or T 
 N: A or G or C or T 
 S: C or G 
 R: A or G
-'''
+```
 So, the result of "OR" is tried out in the experiment, shown below, but does not bring the performance improvement. As a result, the prior one-hot encode (60x8 array) is selected in the experiment.
-'''
+```
     "A":[0,0,0,1],
     "G":[0,0,1,0],
     "C":[0,1,0,0],
@@ -34,7 +34,7 @@ So, the result of "OR" is tried out in the experiment, shown below, but does not
     "N":[1,1,1,1],
     "S":[0,1,1,0],
     "R":[0,0,1,1]}
-'''
+```
 
 2. Data filter/clean-up
 Exception is checked when converting to one-hot decode. No wrong characters shown from the data set.
