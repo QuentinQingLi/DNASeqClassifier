@@ -26,14 +26,14 @@ R: A or G
 ```
 So, the result of "OR" is tried out in the experiment, shown below, but does not bring the performance improvement. As a result, the prior one-hot encode (60x8 array) is selected in the experiment.
 ```
-    "A":[0,0,0,1],
-    "G":[0,0,1,0],
-    "C":[0,1,0,0],
-    "T":[1,0,0,0],
-    "D":[1,0,1,1],
-    "N":[1,1,1,1],
-    "S":[0,1,1,0],
-    "R":[0,0,1,1]}
+	"A":[0,0,0,1],
+	"G":[0,0,1,0],
+	"C":[0,1,0,0],
+	"T":[1,0,0,0],
+	"D":[1,0,1,1],
+	"N":[1,1,1,1],
+	"S":[0,1,1,0],
+	"R":[0,0,1,1]}
 ```
 
 * Data filter/clean-up
