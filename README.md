@@ -86,8 +86,12 @@ RNN layer (64 RNN cells) => dropout => fully connected layer (3: output)
 
 ## Hyperparameter selection
 
-* Learning rate
 * Number of hidden layers
+![CNN model layer comparison](https://github.com/QuentinQingLi/DNASeqClassifier/blob/master/Images/Accuracy_cnn_model_comparison.png)
+
+* Learning rate
+![Learning rate selection](https://github.com/QuentinQingLi/DNASeqClassifier/blob/master/Images/Learning_rate_selection.png)
+
 * Node in each layer
 * Activation function 
 * Optimizor 
