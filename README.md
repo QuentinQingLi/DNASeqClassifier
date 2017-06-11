@@ -62,7 +62,7 @@ Conv layer (32 feature depth) => pooling =>
 
 Basic RNN architecture is used here, no LSTM or GRU utilized. It is connected to a fully connected layer to generate the target labels. More details of the layers are listed here: 
 ```
-RNN layer (80 RNN cells) => dropout => fully connected layer (3: output) 
+RNN layer (64 RNN cells) => dropout => fully connected layer (3: output) 
 ```
 
 ## Considerations in building the models
