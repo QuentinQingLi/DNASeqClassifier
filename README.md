@@ -77,7 +77,7 @@ RNN layer (80 RNN cells) => dropout => fully connected layer (3: output)
     
     * Result shows the above regularization successfully mitigated overfitting. 
 
-> Implementation notes: So far I haven't found a direct way to apply weight regularization to Tensorflow RNN layer. Looks like weight regularization has to go through direct tensor variables. Due to the time limitation, it is not yet done. 
+	> Implementation notes: So far I haven't found a direct way to apply weight regularization to Tensorflow RNN layer. Looks like weight regularization has to go through direct tensor variables. Due to the time limitation, it is not yet done. 
 
 * **Loss function:** Cross entropy lost function is used here for the classification. Regularization loss is added during training process. 
 
