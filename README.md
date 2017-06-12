@@ -92,16 +92,17 @@ RNN layer (64 RNN cells) => dropout => fully connected layer (3: output)
 ## Hyperparameter selection
 
 * **Learning rate**
-Multiple learning rate were examined in hyper parameter search: exponential decayed learning rate, 1E-3, 1E-4, and 1E-5, mapping to lr_0 ~ lr_3 respectively in the below figure. In decayed learning rate in this test, starter learning rate is set as 0.01 and decay rate as 0.5, i.e. reduce into half each time, and reduce to ~1E-5 in 
+	Multiple learning rate were examined in hyper parameter search: exponential decayed learning rate, 1E-3, 1E-4, and 1E-5, mapping to lr_0 ~ lr_3 respectively in the below figure. In decayed learning rate in this test, starter learning rate is set as 0.01 and decay rate as 0.5, i.e. reduce into half each time, and reduce to ~1E-5 in 
 
-The below test shows learning rate 1E-5 (orange color) gives slow converging speed, and not converged within 3000 epochs. Learning rate 1E-3 (yelloe color) supplies some level of variation (the right most diagram). Learning rate 1E-4 does not converage as fast as the decayed learning rate. As a result, exponentially decayed learning rate is selected.
+	The below test shows learning rate 1E-5 (orange color) gives slow converging speed, and not converged within 3000 epochs. Learning rate 1E-3 (yelloe color) supplies some level of variation (the right most diagram). Learning rate 1E-4 does not converage as fast as the decayed learning rate. As a result, exponentially decayed learning rate is selected.
 
-![Learning rate selection](https://github.com/QuentinQingLi/DNASeqClassifier/blob/master/Images/Learning_rate_selection.png)
+	![Learning rate selection](https://github.com/QuentinQingLi/DNASeqClassifier/blob/master/Images/Learning_rate_selection.png)
 
 * **Number of hidden layers**
-Layer structure is searched through hyper parameter search for the optimal result in a compromise between classification performance and speed. The below figure is captured from the layer selection from CNN model. Layer structure was traversed the permutation of 1~2 convolution layers and 1~3 fully connected layers. 
-The below figure is "relative" on the horizon axis, representing the relative time consumed in each run. The longer curve means the run taking longer. The result shows the structure of 1 conv layer and 3 FC layer can be an optimal selection, since speed wise, it save ~1/3 execution time comparing to 2 conv and 3 FC layers, also accuracy wise, they are all very close, and this 1conv, 3FC structure slightly better on accuracy.
-![CNN model layer comparison](https://github.com/QuentinQingLi/DNASeqClassifier/blob/master/Images/Accuracy_cnn_model_comparison.png)
+	Layer structure is searched through hyper parameter search for the optimal result in a compromise between classification performance and speed. The below figure is captured from the layer selection from CNN model. Layer structure was traversed the permutation of 1-2 convolution layers and 1-3 fully connected layers. 
+
+	The below figure is "relative" on the horizon axis, representing the relative time consumed in each run. The longer curve means the run taking longer. The result shows the structure of 1 conv layer and 3 FC layer can be an optimal selection, since speed wise, it save \~1/3 execution time comparing to 2 conv and 3 FC layers, also accuracy wise, they are all very close, and this 1conv, 3FC structure slightly better on accuracy.
+	![CNN model layer comparison](https://github.com/QuentinQingLi/DNASeqClassifier/blob/master/Images/Accuracy_cnn_model_comparison.png)
 
 
 * Node in each layer
