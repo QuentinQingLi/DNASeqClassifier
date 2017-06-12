@@ -51,7 +51,14 @@ RNN is usually used to analyze DNA sequence due to the nature of variant length 
 
 In this experiment, DNN, CNN and RNN are all exercised. Overall CNN provides the best performance from the experiment. However, if the strong correlation exists between the slice junction gene class and the adjacency relationship between Gene pairs, RNN will be still the best choice to use to dig out the sequential features from the gene sequence. 
 
-Some more details are explained for CNN and RNN below. 
+Some more details are listed below. 
+
+* **DNN**: 
+
+Hyper parameter search was exercised on DNN, and the result shows one hidden layer is sufficent: 
+```
+Fully connected layer (200 nodes) => dropout => fully connected layer (3: output)
+```
 
 * **CNN**: 
 
@@ -88,6 +95,8 @@ RNN layer (64 RNN cells) => dropout => fully connected layer (3: output)
 
 * **Weight initialization:** Xaiver weight initialization is applied on the conv and dense layer, to adaptively adjust the weight to the appropriate range for the layer. Slight improvement is observed. 
 
+* **Activation function:** Softmax activation function is used in the last layer of the model, since this is a multi-class classification problem, and softmax can nicely represent the class probability distribution. Relu activation function is used in the middle layers for its simiplicity (a max function is sufficient) and help convergence on training. 
+
 
 ## Hyperparameter selection
 
@@ -104,11 +113,8 @@ RNN layer (64 RNN cells) => dropout => fully connected layer (3: output)
 	The below figure is "relative" on the horizon axis, representing the relative time consumed in each run. The longer curve means the run taking longer. The result shows the structure of 1 conv layer and 3 FC layer can be an optimal selection, since speed wise, it save \~1/3 execution time comparing to 2 conv and 3 FC layers, also accuracy wise, they are all very close, and this 1conv, 3FC structure slightly better on accuracy.
 	![CNN model layer comparison](https://github.com/QuentinQingLi/DNASeqClassifier/blob/master/Images/Accuracy_cnn_model_comparison.png)
 
-
-* Node in each layer
-* Activation function 
-* Optimizor 
-* Mini-batch size
+	Similarly, a hyper parameter search over learning rate and layers on DNN is also done to find the appropriate hidden layer number. The result is shown in the below figure. It is found that two fully connected layers (one hidden layer) can sufficiently provide the similar performance with more hidden layers and training time is close to half of 4 fully connected layer.  
+	![CNN model layer comparison](https://github.com/QuentinQingLi/DNASeqClassifier/blob/master/Images/dnn_hparam_search_full.jpg)
 
 ## Folder/File introduction
 ./Data: stores the input data
