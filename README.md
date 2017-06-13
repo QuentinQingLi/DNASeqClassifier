@@ -15,11 +15,12 @@ Considerations when building up the model and the steps of codes are introduced 
 
 ./Image: stores the captured Tensorboard images from the experiments
 
-./Tensorflow: the folder where implementation is stored
+./Tensorflow: the folder where implementation is stored. The extensive model configuration is done on TF. 
 * DNASeqClf.ipynb: The final selected model
 * DNASeqClf_model_tuning.ipynb: the codes to tune the models, do hyper parameters search, with tensorboard log support
 
-./Neon: empty. The original plan was to implement the solution on neon also, but find out not enough time. :(
+./Neon: neon version of implementation
+* DNASeqClf_neon.py: get it working on the last minute. :) This is leveraging the IMDB example, with LSTM model, with data input adjusted to fit the DNA data. 
 
 ## Data preprocessing and dataset split
 * **One hot encode**: Since the DNA sequence specifies 8 different input classes, and each category is equally important, no order difference, the input classes are transformed with one-hot encoder:
@@ -131,6 +132,6 @@ RNN layer (60 time steps, 64 cells) => dropout => fully connected layer (3: outp
 ## Conclusion
 DNA data is normally sequential data, but this data set turns out to be fixed length. This facilitated a chance to try out DNN and CNN. The 3 models (DNN, CNN and RNN) provides similar performance after 2K epochs 95%~97%, where CNN is slightly better, but it could be all because of the small data set. If DNA sequence has strong correlation in the adjacent DNA slices in science, RNN could be a better choice in the real-world usage. 
 
-In the expriments and this report, the major design items were discussed. Selection of some of the hyper parameters are introduced also. Examples on neon github look nice and clean, for its good framework and API design. It is just unfortunate that I don't have more time to work on it. 
+In the expriments and this report, the major design items were discussed. Selection of some of the hyper parameters are introduced also. There must be something I could have missed or wrong in this TF implementation and my description above, but I hope this mini-project can demonstrate my basic understanding on deep learning.  
 
-There must be something I could have missed or wrong in this TF implementation and my description above, but I hope this mini-project can demonstrate my basic understanding on deep learning.  
+BTW, neon version of LSTM is much much faster than TF on CPU. Actually my MAC is a Haswell system, two generation older than my windows laptop, a Skylake. But neon runs like flying. :) 
