@@ -3,11 +3,23 @@
 This miniproject is to utilize two existing DL framework TensorFlow and Nervana Neon to classify the [Molecular Biology (Splice-junction Gene Sequences) Data Set](https://archive.ics.uci.edu/ml/datasets/Molecular+Biology+%28Splice-junction+Gene+Sequences%29).
 
 Considerations when building up the model and the steps of codes are introduced below. The rough outline is: 
-1. Data preprocessing and dataset preparation 
-2. Neural network model selection
-3. Considerations in building the models
-4. Hyperparameter selection
-5. Folder/File introduction
+1. Folder/File introduction
+2. Data preprocessing and dataset preparation 
+3. Neural network model selection
+4. Considerations in building the models
+5. Hyperparameter selection
+6. Conclusion
+
+## Folder/File introduction
+./Data: stores the input data
+
+./Image: stores the captured Tensorboard images from the experiments
+
+./Tensorflow: the folder where implementation is stored
+* DNASeqClf.ipynb: The final selected model
+* DNASeqClf_model_tuning.ipynb: the codes to tune the models, do hyper parameters search, with tensorboard log support
+
+./Neon: empty. The original plan was to implement the solution on neon also, but find out not enough time. :(
 
 ## Data preprocessing and dataset split
 * **One hot encode**: Since the DNA sequence specifies 8 different input classes, and each category is equally important, no order difference, the input classes are transformed with one-hot encoder:
@@ -72,24 +84,20 @@ Conv layer (64 feature depth) => pooling =>
 
 * **RNN**: 
 
-Basic RNN architecture is used here, no LSTM or GRU utilized. It is connected to a fully connected layer to generate the target labels. More details of the layers are listed here: 
+Basic RNN cells (vanilla RNN) is used in the experiment. LSTM or GRU are found providing the similar performance while taking more computation. Perhaps it is due to the small sample size. A FC layer is connected after RNN layer to generate the target labels. Time step is set as 60 for 60 DNA slices in each sample. More details of the layers are listed here: 
 ```
-RNN layer (64 RNN cells) => dropout => fully connected layer (3: output) 
+RNN layer (60 time steps, 64 cells) => dropout => fully connected layer (3: output) 
 ```
 
 ## Considerations in building the models
 
 * **Overfitting and Regularzation :** The data set is relatively small: around 3k samples. Overfit was found in the early experiment tests. Several adjustments were done to avoid overfitting including simplify model, adding dropout layer and apply weigth regularization:
 
-    * **Simplify the model:** 150 RNN cells were initially used in RNN layer in RNN model. The goal was trying to store long enough (>x2 60 pairs) int the RNN cells. It turns out overfitting quickly, test accuracy stucks at 89% while training accuracy goes >99%. Reducing the RNN cells to 64 dramatically helped the overfitting. 
-    
     * **Add dropout layer:** Dropout layer is added in both CNN and RNN model after the dense layer (affine layer term used in neon). Dropout rate 0.5. Without Dropout layer, the test accuracy stuck around ~92% while training accuracy keeps improving. With dropout layer, test accuracy continus climbing up with traing accuracy till ~96%.
     
     * **Apply weight regularization:** L2 regularization is applied to the weights in Convolution layer and dense layer. Slight improvement on overfitting on top of dropout layer. 
     
     * Result shows the above regularization successfully mitigated overfitting. 
-
-	> Implementation notes: So far I haven't found a direct way to apply weight regularization to Tensorflow RNN layer. Looks like weight regularization has to go through direct tensor variables. Due to the time limitation, it is not yet done. 
 
 * **Loss function:** Cross entropy lost function is used here for the classification. Regularization loss is added during training process. 
 
@@ -116,14 +124,10 @@ RNN layer (64 RNN cells) => dropout => fully connected layer (3: output)
 	Similarly, a hyper parameter search over learning rate and layers on DNN is also done to find the appropriate hidden layer number. The result is shown in the below figure. It is found that two fully connected layers (one hidden layer) can sufficiently provide the similar performance with more hidden layers and training time is close to half of 4 fully connected layer.  
 	![CNN model layer comparison](https://github.com/QuentinQingLi/DNASeqClassifier/blob/master/Images/dnn_hparam_search_full.jpg)
 
-## Folder/File introduction
-./Data: stores the input data
+* **Number of hidden RNN cells**
+	Multiple cell numbers in RNN layer were tried out in the experiment to determine to an appropriate one for the problem. The test result is shown in the below figure. Smaller cell count, 32 in the test, cannot achieve good a good performance, referring to the orange line. 64 cells and 150 cells can contribute the similar accuracy while 64 cell model takes only 1/3 of execution time of 150 cells, referring to the small time relative figure in the left bottom.
+	![CNN model layer comparison](https://github.com/QuentinQingLi/DNASeqClassifier/blob/master/Images/rnn_node_num_selection.jpg)
 
-./Image: stores the captured Tensorboard images from the experiments
-
-./Tensorflow: the folder where implementation is stored
-* DNASeqClf.ipynb: The final selected model
-* DNASeqClf_model_tuning.ipynb: the codes to tune the models, do hyper parameters search, with tensorboard log support
-
-./Neon: empty. The original plan was to implement the solution on neon also, but find out not enough time. :(
-
+## Conclusion
+DNA analysis is normally for sequential DNA data, but the data set turns out to be a fixed length data set. This provides a chance to try out DNN and CNN. The 3 models (DNN, CNN and RNN) provides similar performance after 2K epochs 95%~97%, where CNN is slightly better, but it could be all because of the small data size. If DNA sequence shows strong correlation in the adjacent DNA slices, RNN could be a better choice in the real-world usage. The major design items were discussed. Selection of some of the hyper parameters are introduced also. 
+neon examples on github look nice and clean, for the good framework and API design. It is just unfortunate that I don't have more time to work on it. There must be something I could have missed or wrong in this TF implementation and my description above, but I hope this mini-project can demonstrate my basic understanding on deep learning.  
