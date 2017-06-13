@@ -130,4 +130,5 @@ RNN layer (60 time steps, 64 cells) => dropout => fully connected layer (3: outp
 
 ## Conclusion
 DNA analysis is normally for sequential DNA data, but the data set turns out to be a fixed length data set. This provides a chance to try out DNN and CNN. The 3 models (DNN, CNN and RNN) provides similar performance after 2K epochs 95%~97%, where CNN is slightly better, but it could be all because of the small data size. If DNA sequence shows strong correlation in the adjacent DNA slices, RNN could be a better choice in the real-world usage. The major design items were discussed. Selection of some of the hyper parameters are introduced also. 
+
 neon examples on github look nice and clean, for the good framework and API design. It is just unfortunate that I don't have more time to work on it. There must be something I could have missed or wrong in this TF implementation and my description above, but I hope this mini-project can demonstrate my basic understanding on deep learning.  
