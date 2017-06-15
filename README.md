@@ -112,7 +112,7 @@ RNN layer (60 time steps, 64 cells) => dropout => fully connected layer (3: outp
 * **Learning rate**
 	Multiple learning rate were examined in hyper parameter search: exponential decayed learning rate, 1E-3, 1E-4, and 1E-5, mapping to lr_0 ~ lr_3 respectively in the below figure. In decayed learning rate in this test, starter learning rate is set as 0.01 and decay rate as 0.5, i.e. reduce into half each time, and reduce to ~1E-5 in 
 
-	The below test shows learning rate 1E-5 (orange color) gives slow converging speed, and not converged within 3000 epochs. Learning rate 1E-3 (yelloe color) supplies some level of variation (the right most diagram). Learning rate 1E-4 does not converage as fast as the decayed learning rate. As a result, the exponential decayed learning rate is used in the experiments.
+	The below test shows learning rate 1E-5 (orange color) gives slow converging speed, and not converged within 3000 epochs. Learning rate 1E-3 (yelloe color) supplies some level of variation (the right most diagram). Learning rate 1E-4 does not converage as fast as the decayed learning rate. As a result, the exponential decayed learning rate is used on top of adamOptimizer in the experiments.
 
 	![Learning rate selection](https://github.com/QuentinQingLi/DNASeqClassifier/blob/master/Images/Learning_rate_selection.png)
 
